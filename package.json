@@ -1,0 +1,11 @@
+{
+  "name": "study-pupeteer",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "puppeteer": "^0.12.0"
+  }
+}
