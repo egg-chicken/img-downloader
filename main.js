@@ -1,10 +1,3 @@
-const puppeteer = require('puppeteer');
+const StudyPuppeteer = require('./lib/StudyPuppeteer');
 
-(async () => {
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-  await page.goto('https://example.com');
-  await page.screenshot({path: 'out/example.png'});
-
-  await browser.close();
-})();
+StudyPuppeteer.run('https://example.com');
