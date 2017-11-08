@@ -1,3 +1,3 @@
 const StudyPuppeteer = require('./lib/StudyPuppeteer');
-
-StudyPuppeteer.run('https://example.com');
+const config = require('./config');
+StudyPuppeteer.run(config);
