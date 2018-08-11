@@ -9,4 +9,6 @@ async function main() {
   }
 }
 
-main()
+main().catch((e) => {
+  console.log(`エラーが発生しました ${e}`)
+})
