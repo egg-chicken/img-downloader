@@ -3,3 +3,4 @@ out/
 yarn.lock
 package-lock.json
 config.js
+db.sqlite
