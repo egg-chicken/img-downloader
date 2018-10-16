@@ -31,7 +31,7 @@ class Main {
         await this.sp.setup(page)
         await DB.updatePage({...page, name: this.sp.getName()})
         await this.sp.run()
-        await DB.updatePage({...page, completed: 1})
+        await DB.updatePage({...page, name: this.sp.getName(), completed: 1})
       }
     }
   }
