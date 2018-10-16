@@ -1,6 +1,6 @@
-const StudyPuppeteer = require('./lib/StudyPuppeteer');
-const DB = require('./lib/DB');
-const Debug = require('./lib/Debug');
+const StudyPuppeteer = require('./lib/StudyPuppeteer')
+const DB = require('./lib/DB')
+const Debug = require('./lib/Debug')
 const config = require('./config')
 
 class Main {
