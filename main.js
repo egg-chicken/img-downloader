@@ -13,12 +13,13 @@ class Main {
   }
 
   async insertPages() {
+    const defaults = config.defaults
     for(let page of config.pages) {
       if(await DB.existPage(page)) {
         Debug.log(`${page.url} is already exists`)
       } else {
         Debug.log(`${page.url} inserted`)
-        await DB.insertPage(page)
+        await DB.insertPage({...defaults, ...page})
       }
     }
   }
