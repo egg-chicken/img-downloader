@@ -1,7 +1,9 @@
 module.exports = {
+  defaults: {
+    name_selector: "h1",
+    next_selector: "input[value=\"I'm Feeling Lucky\"]"
+  },
   pages: [{
     url: 'https://google.com',
-    next: "input[value=\"I'm Feeling Lucky\"]",
-    name: "google"
   }]
 };

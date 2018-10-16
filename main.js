@@ -1,19 +1,25 @@
-const StudyPuppeteer = require('./lib/StudyPuppeteer');
-const DB = require('./lib/DB');
+const StudyPuppeteer = require('./lib/StudyPuppeteer')
+const DB = require('./lib/DB')
+const Debug = require('./lib/Debug')
 const config = require('./config')
 
 class Main {
+  constructor() {
+    this.sp = new StudyPuppeteer()
+  }
+
   static run() {
     (new Main()).main()
   }
 
   async insertPages() {
+    const defaults = config.defaults
     for(let page of config.pages) {
       if(await DB.existPage(page)) {
-        console.log(`${page.url} is already exists`)
+        Debug.log(`${page.url} is already exists`)
       } else {
-        console.log(`${page.url} inserted`)
-        await DB.insertPage(page)
+        Debug.log(`${page.url} inserted`)
+        await DB.insertPage({...defaults, ...page})
       }
     }
   }
@@ -22,10 +28,10 @@ class Main {
     const pages = await DB.selectPages()
     for(let page of pages) {
       if(page.completed === 0) {
-        console.log(`download ${page.url}`)
-        await StudyPuppeteer.run(page)
-        console.log(`completed`)
-        await DB.updatePage({...page, completed: 1})
+        await this.sp.setup(page)
+        await DB.updatePage({...page, name: this.sp.getName()})
+        await this.sp.run()
+        await DB.updatePage({...page, name: this.sp.getName(), completed: 1})
       }
     }
   }
@@ -33,8 +39,12 @@ class Main {
   async main() {
     try {
       DB.setup()
+      await this.sp.open()
       await this.insertPages()
+      console.table(await DB.selectPages())
+
       await this.downloadPages()
+      await this.sp.close()
       console.table(await DB.selectPages())
     } catch(e) {
       console.log(`エラーが発生しました ${e}`)
