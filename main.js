@@ -1,11 +1,11 @@
-const StudyPuppeteer = require('./lib/StudyPuppeteer')
+const Browser = require('./lib/Browser')
 const DB = require('./lib/DB')
 const Debug = require('./lib/Debug')
 const config = require('./config')
 
 class Main {
   constructor() {
-    this.sp = new StudyPuppeteer()
+    this.browser = new Browser()
   }
 
   static run() {
@@ -28,10 +28,10 @@ class Main {
     const pages = await DB.selectPages()
     for(let page of pages) {
       if(page.completed === 0) {
-        await this.sp.setup(page)
-        await DB.updatePage({...page, name: this.sp.getName()})
-        await this.sp.run()
-        await DB.updatePage({...page, name: this.sp.getName(), completed: 1})
+        await this.browser.setup(page)
+        await DB.updatePage({...page, name: this.browser.getName()})
+        await this.browser.run()
+        await DB.updatePage({...page, name: this.browser.getName(), completed: 1})
       }
     }
   }
@@ -39,12 +39,12 @@ class Main {
   async main() {
     try {
       DB.setup()
-      await this.sp.open()
+      await this.browser.open()
       await this.insertPages()
       console.table(await DB.selectPages())
 
       await this.downloadPages()
-      await this.sp.close()
+      await this.browser.close()
       console.table(await DB.selectPages())
     } catch(e) {
       console.log(`エラーが発生しました ${e}`)
